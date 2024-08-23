@@ -4,7 +4,7 @@ const Home = () => {
   const location = useLocation();
   const user = location.state?.user;
   return (
-    <div style={{color:'white'}}> <h1>`Welcome home {user.name}`</h1></div>
+    <div style={{color:'white'}}> <h1>Welcome home {user.name}</h1></div>
   )
 }
 
