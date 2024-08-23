@@ -29,7 +29,7 @@ app.post("/signup", async(req,res)=>{
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new UserModel({name, email, password: hashedPassword});
         const savedUser = await newUser.save();
-        res.status(201).json({ message: "User created successfully" });
+        res.status(201).json(savedUser);
     } catch (error) {
         res.status(500).json({error: error.message})
     }

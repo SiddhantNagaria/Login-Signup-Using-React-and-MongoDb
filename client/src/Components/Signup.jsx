@@ -20,14 +20,14 @@ export const Signup = () => {
     borderRadius: "0.5rem",
   };
 
-  const {name, setName} = useState("");
-  const {email, setEmail} = useState("");
-  const {password, setPassword} = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignup=(e)=>{
         e.preventDefault();
-        axios.post("http://localhost:3001/signup"), {name, email, password}
+        axios.post("http://localhost:3001/signup", {name, email, password})
         .then(result => {
             if(result.status==201){
                 console.log("User Created Successfully");
