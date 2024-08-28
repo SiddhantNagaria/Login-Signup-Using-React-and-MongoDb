@@ -1,9 +1,18 @@
-import { Button, Grid, Link, Paper, TextField, Typography } from "@mui/material";
-import axios from 'axios';
-import React, { useState } from "react";
+import {
+  Button,
+  Grid,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SetIsLoggedInContext } from "../App";
 
 export const Login = () => {
+  const setIsLoggedIn = useContext(SetIsLoggedInContext);
   const heading = { fontSize: "2.5rem", fontWeight: "600" };
   const paperStyle = {
     padding: "2rem",
@@ -23,23 +32,30 @@ export const Login = () => {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
-  const handleLogin=(e)=>{
+  const handleLogin = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/login", { email, password }, { withCredentials: true })
-    .then(result =>{
-      if(result.data == "Success"){
-        axios.get("http://localhost:3001/user", {withCredentials:true})
-        .then(response=>{
-          if(response.data.user){
-            navigate("/home" , { state:{user:response.data.user}});
-          }
-        })
-      }else{
-        alert("Invalid Credentials");
-      }
-    })
-    .catch(error => console.log(error.response.data))
-  }
+    axios
+      .post(
+        "http://localhost:3001/login",
+        { email, password },
+        { withCredentials: true }
+      )
+      .then((result) => {
+        if (result.data == "Success") {
+          axios
+            .get("http://localhost:3001/user", { withCredentials: true })
+            .then((response) => {
+              if (response.data.user) {
+                setIsLoggedIn(true);
+                navigate("/home", { state: { user: response.data.user } });
+              }
+            });
+        } else {
+          alert("Invalid Credentials");
+        }
+      })
+      .catch((error) => console.log(error.response.data));
+  };
   return (
     <>
       <Grid align="center">
@@ -58,12 +74,28 @@ export const Login = () => {
             },
           }}
         >
-        <Typography style={heading}>Login</Typography>
+          <Typography style={heading}>Login</Typography>
           <form onSubmit={handleLogin}>
             {/* <TextField style={row} sx={{label: { fontWeight: '700', fontSize:"1.2rem" }}} label="Enter name" type="text"></TextField> */}
-            <TextField onChange={(e)=>setEmail(e.target.value)} name ="email" style={row} sx={{label: { fontWeight: '700', fontSize:"1.2rem" }}} label="Enter Email" type="email"></TextField>
-            <TextField onChange={(e)=>setPassword(e.target.value)} name="password" style={row} sx={{label: { fontWeight: '700', fontSize:"1.2rem" }}} label="Enter Password" type="password"></TextField>
-            <Button style={btnStyle} variant = "contained" type="submit">Login</Button>
+            <TextField
+              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              style={row}
+              sx={{ label: { fontWeight: "700", fontSize: "1.2rem" } }}
+              label="Enter Email"
+              type="email"
+            ></TextField>
+            <TextField
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              style={row}
+              sx={{ label: { fontWeight: "700", fontSize: "1.2rem" } }}
+              label="Enter Password"
+              type="password"
+            ></TextField>
+            <Button style={btnStyle} variant="contained" type="submit">
+              Login
+            </Button>
           </form>
           <p>
             Don't have an account?<Link href="/signup"> Signup</Link>
