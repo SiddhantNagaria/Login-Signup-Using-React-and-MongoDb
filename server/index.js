@@ -99,3 +99,18 @@ app.get('/user', (req, res) => {
         res.status(401).json("Not authenticated");
     }
 });
+
+app.post('/logout',(req,res)=>{
+    if(req.session){
+        req.session.destroy(err=>{
+            if(err){
+                res.status(500).json({error : "failed to logout"})
+            }
+            else{
+                res.status(200).json("logout successful")
+            }
+        })
+    }else{
+        res.status(400).json({error:"no session found"})
+    }
+})
