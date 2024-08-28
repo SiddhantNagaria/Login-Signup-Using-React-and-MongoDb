@@ -9,7 +9,7 @@ export const Navbar = () => {
   return (
     <>
         <AppBar sx={{bgcolor:'#571'}}>
-            <Toolbar>
+            <Toolbar> 
                 <Typography variant='h4' sx={{flexGrow:1}}>Siddhant Nagaria</Typography>
                 {isLoggedIn? <Logout/>:( 
                 <>
